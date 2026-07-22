@@ -32,8 +32,11 @@ commands.
         unreleased assets (Phase 4 replaces every `TBD` with a real digest).
 
 Only list artifacts the package's release workflow builds today. The worker's
-registry artifact is the self-contained installer (the `mass-worker-setup`
-bundle), not the raw binary archive.
+registry artifact is the raw self-contained installer binary
+(`mass-worker-setup_<os>_<arch>`) — the join bootstrap fetches and execs it
+directly. The AppImage/.app containers on the same release are for manual
+double-click installs and are not indexed; the worker-binary `.tar.gz` is not
+an installer.
 
 ## Compatibility
 

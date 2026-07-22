@@ -53,6 +53,11 @@ requested platform key. For a worker, the range is `compatible` matched against
 the installed runtime version. If no version both covers and has a matching
 artifact, resolution fails.
 
+Ranges in the index are trusted to be well-formed (validated at publish time):
+an unparseable range is a resolution **error**, not a version to skip. A
+malformed *installed* version supplied by the resolving client is an input
+error, distinct from "no version covers it".
+
 ## Publishing
 
 1. Tag a release in the package repo (`git tag vX.Y.Z && git push --tags`). Its

@@ -1,0 +1,37 @@
+schema_version: 1
+packages:
+  - name: mass-runtime-llama-cpp
+    kind: runtime
+    runtime_name: llama-cpp
+    display_name: llama.cpp
+    description: |
+      Runtime gateway for llama.cpp-family inference workers (mass-worker-llama-cpp).
+      Serves chat, embed, tokenize via typed API and OpenAI-compatible shim.
+    versions:
+      - version: 0.1.0
+        min_mass: ">=0.1"
+        artifacts:  # key: os/arch
+          linux/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-llama-cpp/releases/download/v0.1.0/mass-runtime-llama-cpp_linux_amd64.mass
+            sha256: TBD  # placeholder until Phase 4 (no release published yet)
+          windows/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-llama-cpp/releases/download/v0.1.0/mass-runtime-llama-cpp_windows_amd64.mass
+            sha256: TBD  # placeholder until Phase 4 (no release published yet)
+          darwin/arm64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-llama-cpp/releases/download/v0.1.0/mass-runtime-llama-cpp_darwin_arm64.mass
+            sha256: TBD  # placeholder until Phase 4 (no release published yet)
+
+  - name: mass-worker-llama-cpp
+    kind: worker
+    runtime_name: llama-cpp
+    display_name: llama.cpp worker
+    description: |
+      Native llama.cpp inference worker. Registry artifact is the self-contained
+      installer (mass-worker-setup bundle); GPU backend is Vulkan (cross-vendor).
+    versions:
+      - version: 0.1.0
+        compatible: ">=0.1 <0.2"  # runtime versions whose payloads it decodes
+        artifacts:  # key: os/arch/backend
+          linux/amd64/vulkan:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-llama-cpp-setup_linux_amd64.AppImage
+            sha256: TBD  # placeholder until Phase 4 (no release published yet)

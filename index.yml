@@ -13,13 +13,13 @@ packages:
         artifacts:  # key: os/arch
           linux/amd64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_linux_amd64.mass
-            sha256: TBD  # placeholder until Phase 4 (no release published yet)
+            sha256: 4256ec866af340889b8f32d29b029683e798c1a3534955d3d2c237916b268022
           windows/amd64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_windows_amd64.mass
-            sha256: TBD  # placeholder until Phase 4 (no release published yet)
+            sha256: 607669c16a00d6b04bbd284656efbb25bb125a8f842144d29ce4aeff15bc8fe1
           darwin/arm64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
-            sha256: TBD  # placeholder until Phase 4 (no release published yet)
+            sha256: b4addda9b1a9b634ee6abdf477c66fbd94cf5ddd53fc3853e3bbccb02886aec9
 
   - name: mass-worker-llama-cpp
     kind: worker
@@ -35,4 +35,4 @@ packages:
         artifacts:  # key: os/arch/backend
           linux/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-setup_linux_amd64
-            sha256: TBD  # placeholder until Phase 4 (no release published yet)
+            sha256: 92c33157851999e3b3f15d84d478dfcbd4aef5912086dd34da0ceca7ad361be2

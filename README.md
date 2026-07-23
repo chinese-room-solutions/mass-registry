@@ -12,7 +12,7 @@ commands.
 
 - `schema_version` — integer. Currently `1`.
 - `packages` — list. Each entry:
-  - `name` — package repo name (e.g. `mass-runtime-llama-cpp`). Unique.
+  - `name` — package repo name (e.g. `mass-runtime-gateway-llama-cpp`). Unique.
   - `kind` — `runtime` or `worker`.
   - `runtime_name` — the join key. Workers map n:1 onto the runtime with the
     same `runtime_name` (e.g. both llama-cpp packages use `llama-cpp`).

@@ -1,6 +1,6 @@
 schema_version: 1
 packages:
-  - name: mass-runtime-llama-cpp
+  - name: mass-runtime-gateway-llama-cpp
     kind: runtime
     runtime_name: llama-cpp
     display_name: llama.cpp
@@ -12,13 +12,13 @@ packages:
         min_mass: ">=0.1"
         artifacts:  # key: os/arch
           linux/amd64:
-            url: https://github.com/chinese-room-solutions/mass-runtime-llama-cpp/releases/download/v0.1.0/mass-runtime-llama-cpp_linux_amd64.mass
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_linux_amd64.mass
             sha256: TBD  # placeholder until Phase 4 (no release published yet)
           windows/amd64:
-            url: https://github.com/chinese-room-solutions/mass-runtime-llama-cpp/releases/download/v0.1.0/mass-runtime-llama-cpp_windows_amd64.mass
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_windows_amd64.mass
             sha256: TBD  # placeholder until Phase 4 (no release published yet)
           darwin/arm64:
-            url: https://github.com/chinese-room-solutions/mass-runtime-llama-cpp/releases/download/v0.1.0/mass-runtime-llama-cpp_darwin_arm64.mass
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
             sha256: TBD  # placeholder until Phase 4 (no release published yet)
 
   - name: mass-worker-llama-cpp

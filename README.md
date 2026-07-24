@@ -16,7 +16,9 @@ commands.
   - `kind` — `runtime` or `worker`.
   - `runtime_name` — the join key. Workers map n:1 onto the runtime with the
     same `runtime_name` (e.g. both llama-cpp packages use `llama-cpp`).
-  - `display_name` — human label.
+  - `display_name` — human label. For workers, do not repeat the word "worker"
+    (UIs already label the field, so "llama.cpp worker" renders as
+    "Worker: llama.cpp worker") — use the bare product name, e.g. `llama.cpp`.
   - `description` — free text.
   - `versions` — list, one entry per released semver:
     - `version` — semver string (e.g. `0.1.0`).

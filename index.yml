@@ -24,7 +24,7 @@ packages:
   - name: mass-worker-llama-cpp
     kind: worker
     runtime_name: llama-cpp
-    display_name: llama.cpp worker
+    display_name: llama.cpp
     description: |
       Native llama.cpp inference worker. Registry artifact is the raw
       self-contained installer (mass-worker-setup, non-container binary);

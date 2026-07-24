@@ -35,4 +35,4 @@ packages:
         artifacts:  # key: os/arch/backend
           linux/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-setup_linux_amd64
-            sha256: 2d9a1b6f1095b6ee208d8fd5e4445a4816586715adc54ffa904c86d842c1b7ff
+            sha256: ecf50409ed9438be6c51fb9477c36f60a5d1da4a5c0e10358ee218e08bd907d0

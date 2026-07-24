@@ -20,9 +20,11 @@ commands.
   - `description` — free text.
   - `versions` — list, one entry per released semver:
     - `version` — semver string (e.g. `0.1.0`).
-    - `min_mass` — **runtime only.** Semver range of MASS versions this runtime
-      requires (e.g. `">=0.1"`).
-    - `compatible` — **worker only.** Semver range of *runtime* versions whose
+    - `mass` — Semver range of MASS server versions this version works with
+      (e.g. `">=0.1"`). Required on runtimes; optional on workers (a worker talks
+      to the MASS server directly via the hub protocol) where an empty value
+      means unconstrained.
+    - `runtime` — **worker only.** Semver range of *runtime* versions whose
       payloads this worker decodes (e.g. `">=0.1 <0.2"`).
     - `artifacts` — map, keyed by platform. Each value is `{url, sha256}`:
       - runtime key format: `os/arch` (e.g. `linux/amd64`).
@@ -42,16 +44,19 @@ an installer.
 
 One-directional — resolution is lookup, never constraint solving:
 
-- Workers declare `compatible`, a range over **runtime** versions they decode.
-- Runtimes declare `min_mass`, a range over **MASS** versions they require.
+- Workers declare `runtime`, a range over **runtime** versions they decode, and
+  may declare `mass`, a range over **MASS** versions they speak the hub protocol
+  to (empty = unconstrained).
+- Runtimes declare `mass`, a range over **MASS** versions they require.
 
 ## Resolution
 
 To resolve a package for a platform: pick the newest `version` whose range
 covers the relevant installed version and that has an `artifacts` entry for the
-requested platform key. For a worker, the range is `compatible` matched against
-the installed runtime version. If no version both covers and has a matching
-artifact, resolution fails.
+requested platform key. For a worker, `runtime` is matched against the installed
+runtime version and `mass` (when set) against the MASS server version — both must
+cover. If no version covers every applicable range and has a matching artifact,
+resolution fails.
 
 Ranges in the index are trusted to be well-formed (validated at publish time):
 an unparseable range is a resolution **error**, not a version to skip. A
@@ -64,6 +69,6 @@ error, distinct from "no version covers it".
    release workflow builds and uploads the assets under stable, versionless
    basenames.
 2. Open a PR here adding or updating the package's `versions` entry: the new
-   `version`, its range (`compatible` or `min_mass`), and one `artifacts` entry
+   `version`, its ranges (`runtime` and/or `mass`), and one `artifacts` entry
    per built platform with the release download URL and the asset's real
    `sha256` (`curl -L <url> | sha256sum`).

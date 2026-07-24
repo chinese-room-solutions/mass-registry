@@ -9,7 +9,7 @@ packages:
       Serves chat, embed, tokenize via typed API and OpenAI-compatible shim.
     versions:
       - version: 0.1.0
-        min_mass: ">=0.1"
+        mass: ">=0.1"
         artifacts:  # key: os/arch
           linux/amd64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_linux_amd64.mass
@@ -31,7 +31,8 @@ packages:
       GPU backend is Vulkan (cross-vendor).
     versions:
       - version: 0.1.0
-        compatible: ">=0.1 <0.2"  # runtime versions whose payloads it decodes
+        runtime: ">=0.1 <0.2"  # runtime versions whose payloads it decodes
+        mass: ">=0.1"  # MASS server versions it speaks the hub protocol to
         artifacts:  # key: os/arch/backend
           linux/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-setup_linux_amd64

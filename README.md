@@ -1,10 +1,14 @@
 # mass-registry
 
-The package index for MASS runtime gateways (`.mass`) and workers. A single
-hand-maintained `index.yml` at the repo root, fetched raw off the default
-branch. Artifacts live on GitHub Releases in each package's own repo, pinned by
-sha256. MASS reads this index to search, install runtimes, and mint worker join
-commands.
+The package index for the MASS family: runtime gateways (`.mass`), workers,
+and UI themes. A single hand-maintained `index.yml` at the repo root, fetched
+raw off the default branch. Artifacts live on GitHub Releases in each package's
+own repo, pinned by sha256. MASS reads this index to search, install runtimes,
+and mint worker join commands; Grimoire reads it to install themes (its
+kernels live in
+[grimoire-registry](https://github.com/chinese-room-solutions/grimoire-registry)).
+Consumers filter by `kind` and ignore kinds they don't know, so adding a kind
+never breaks a released client.
 
 ## Schema
 
@@ -12,15 +16,17 @@ commands.
 
 - `schema_version` — integer. Currently `1`.
 - `packages` — list. Each entry:
-  - `name` — package repo name (e.g. `mass-runtime-gateway-llama-cpp`). Unique.
-  - `kind` — `runtime` or `worker`.
-  - `runtime_name` — the join key. Workers map n:1 onto the runtime with the
-    same `runtime_name` (e.g. both llama-cpp packages use `llama-cpp`).
+  - `name` — unique package name: the repo name for runtimes/workers (e.g.
+    `mass-runtime-gateway-llama-cpp`), `theme-<id>` for themes.
+  - `kind` — `runtime`, `worker`, or `theme`.
+  - `runtime_name` — runtime/worker only; the join key. Workers map n:1 onto
+    the runtime with the same `runtime_name` (e.g. both llama-cpp packages use
+    `llama-cpp`).
   - `display_name` — human label. For workers, do not repeat the word "worker"
     (UIs already label the field, so "llama.cpp worker" renders as
     "Worker: llama.cpp worker") — use the bare product name, e.g. `llama.cpp`.
   - `description` — free text.
-  - `versions` — list, one entry per released semver:
+  - `versions` — list, one entry per released version:
     - `version` — semver string (e.g. `0.1.0`).
     - `mass` — Semver range of MASS server versions this version works with
       (e.g. `">=0.1"`). Required on runtimes; optional on workers (a worker talks
@@ -28,9 +34,13 @@ commands.
       means unconstrained.
     - `runtime` — **worker only.** Semver range of *runtime* versions whose
       payloads this worker decodes (e.g. `">=0.1 <0.2"`).
+    - `grimoire` — **theme only.** Semver range of Grimoire versions the theme
+      works with; empty means unconstrained (the typical case — themes are
+      token packs).
     - `artifacts` — map, keyed by platform. Each value is `{url, sha256}`:
       - runtime key format: `os/arch` (e.g. `linux/amd64`).
       - worker key format: `os/arch/backend` (e.g. `linux/amd64/vulkan`).
+      - theme key: `any` — platform-independent (CSS).
       - `url` — GitHub Release asset download URL.
       - `sha256` — hex digest of the asset. `TBD` is a placeholder for
         unreleased assets (Phase 4 replaces every `TBD` with a real digest).
@@ -41,6 +51,16 @@ registry artifact is the raw self-contained installer binary
 directly. The AppImage/.app containers on the same release are for manual
 double-click installs and are not indexed; the worker-binary `.tar.gz` is not
 an installer.
+
+## Theme artifacts
+
+A **theme** artifact is a single self-describing `.css` file per the mass-sdk
+uikit contract: the file name (sans `.css`) is the theme id and CSS class
+suffix, optional `/* label: ... */` and `/* base: dark|light */` directives
+ride in comments, and the body is custom-property declarations only. It
+installs into the shared `<config>/mass/themes/` dir, where both MASS and
+Grimoire load it — install once, themed everywhere. No archive wrapper: the
+index row carries version + sha256, the file carries its own metadata.
 
 ## Compatibility
 

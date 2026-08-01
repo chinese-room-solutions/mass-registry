@@ -13,13 +13,13 @@ packages:
         artifacts:  # key: os/arch
           linux/amd64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_linux_amd64.mass
-            sha256: 4256ec866af340889b8f32d29b029683e798c1a3534955d3d2c237916b268022
+            sha256: 7b8c748b9e7d9eebd03a4ede2d251ef4de6750060b2ba255da537fc2056e8644
           windows/amd64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_windows_amd64.mass
-            sha256: 607669c16a00d6b04bbd284656efbb25bb125a8f842144d29ce4aeff15bc8fe1
+            sha256: 900c2387add6a9cfb1aebc1fd2866485cb69545b812311f8a36dc3150f2f3128
           darwin/arm64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
-            sha256: b4addda9b1a9b634ee6abdf477c66fbd94cf5ddd53fc3853e3bbccb02886aec9
+            sha256: f525ceb6b9cdd714b8b6adc826819b1e92aa537dae0f17f096a232335634614b
 
   - name: mass-worker-llama-cpp
     kind: worker
@@ -27,8 +27,8 @@ packages:
     display_name: llama.cpp
     description: |
       Native llama.cpp inference worker. Registry artifact is the raw
-      self-contained installer (mass-worker-setup, non-container binary);
-      GPU backend is Vulkan (cross-vendor).
+      self-contained installer (mass-worker-setup, non-container binary).
+      GPU backend is Metal on Apple Silicon, Vulkan (cross-vendor) elsewhere.
     versions:
       - version: 0.1.0
         runtime: ">=0.1 <0.2"  # runtime versions whose payloads it decodes
@@ -36,4 +36,24 @@ packages:
         artifacts:  # key: os/arch/backend
           linux/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-setup_linux_amd64
-            sha256: 231aa7e6047c656c5003107c3b8ea5dac1fe4646b2605d36cafc467776e19624
+            sha256: 84a6c40679347a52580e2b0d6d86f7bf6f71d73bb0c98a62d92aa71c73f5dab7
+          darwin/arm64/metal:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-setup_darwin_arm64
+            sha256: eb1451aa1f24162a023d7ab4b96e6740ac6b0d21e2983a7a6e55cbd16ea8a14f
+          windows/amd64/vulkan:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-setup_windows_amd64.exe
+            sha256: 9fd87ca8c9188e79d93e5e47a1c0cf92e19a40f362a37aa69e6b77e87795aacd
+
+  - name: theme-synthwave
+    kind: theme
+    display_name: Synthwave
+    description: |
+      UI theme after the Synthwave '84 look — deep-purple surfaces, hot-pink
+      accents, neon glows. One self-describing .css token pack, shared by MASS
+      and Grimoire.
+    versions:
+      - version: 0.1.0
+        artifacts:
+          any:
+            url: https://github.com/chinese-room-solutions/mass-theme-synthwave/releases/download/v0.1.0/synthwave.css
+            sha256: 62003d9c0750755c78475b7562f64db4692cafcb7b625deb90b6dd5b6a74643b

@@ -57,3 +57,8 @@ packages:
           any:
             url: https://github.com/chinese-room-solutions/mass-theme-synthwave/releases/download/v0.1.0/synthwave.css
             sha256: 62003d9c0750755c78475b7562f64db4692cafcb7b625deb90b6dd5b6a74643b
+      - version: 0.1.1
+        artifacts:
+          any:
+            url: https://github.com/chinese-room-solutions/mass-theme-synthwave/releases/download/v0.1.1/synthwave.css
+            sha256: 09ed50c32c077e72943545c0797e11facebbe8f5756f96aa9c9e0f41f79b9979

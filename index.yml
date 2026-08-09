@@ -9,7 +9,9 @@ packages:
       Serves chat, embed, tokenize via typed API and OpenAI-compatible shim.
     versions:
       - version: 0.1.0
-        mass: ">=0.1"
+        # Upper bound: 0.2.0 dropped default_cost_axis from InitResponse, which
+        # MASS 0.1.x requires non-empty — the two lines are not interchangeable.
+        mass: ">=0.1 <0.2"
         artifacts:  # key: os/arch
           linux/amd64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_linux_amd64.mass
@@ -20,6 +22,18 @@ packages:
           darwin/arm64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
             sha256: f525ceb6b9cdd714b8b6adc826819b1e92aa537dae0f17f096a232335634614b
+      - version: 0.2.0
+        mass: ">=0.2"
+        artifacts:  # key: os/arch
+          linux/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.0/mass-runtime-gateway-llama-cpp_linux_amd64.mass
+            sha256: f91691d0c0e89ca4909bb0e875128920166ce9da67da0b9725b0c88a879914c8
+          windows/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.0/mass-runtime-gateway-llama-cpp_windows_amd64.mass
+            sha256: 9468200e4915b88c86cb9fbc7361aba2e68b210986a65a9b36ab18a3c1ecd4ec
+          darwin/arm64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
+            sha256: 73693ec25bc19f38732c5bb0964a44cf669ba83ea3098542f9fcdba36423edc6
 
   - name: mass-worker-llama-cpp
     kind: worker
@@ -32,7 +46,9 @@ packages:
     versions:
       - version: 0.1.0
         runtime: ">=0.1 <0.2"  # runtime versions whose payloads it decodes
-        mass: ">=0.1"  # MASS server versions it speaks the hub protocol to
+        # Upper bound: 0.2.0 added the model-benchmark hub exchange and the
+        # pinned pool size, neither of which MASS 0.1.x drives.
+        mass: ">=0.1 <0.2"  # MASS server versions it speaks the hub protocol to
         artifacts:  # key: os/arch/backend
           linux/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-setup_linux_amd64
@@ -43,6 +59,19 @@ packages:
           windows/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-setup_windows_amd64.exe
             sha256: 9fd87ca8c9188e79d93e5e47a1c0cf92e19a40f362a37aa69e6b77e87795aacd
+      - version: 0.2.0
+        runtime: ">=0.2 <0.3"  # runtime versions whose payloads it decodes
+        mass: ">=0.2"  # MASS server versions it speaks the hub protocol to
+        artifacts:  # key: os/arch/backend
+          linux/amd64/vulkan:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.0/mass-worker-setup_linux_amd64
+            sha256: a6f02e0c2e5bf1d80fe565c9d23fd6f8c89ed8447132ee1766f516d0803979dd
+          darwin/arm64/metal:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.0/mass-worker-setup_darwin_arm64
+            sha256: 997fae1955acabcec3d14bd69aa93687342dda8f9a4e253fe4ced1df2b8445d2
+          windows/amd64/vulkan:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.0/mass-worker-setup_windows_amd64.exe
+            sha256: 5cf85491c194cd54eb6380458d5b9f131cefba005b514591f6aec6d956ec3f84
 
   - name: theme-synthwave
     kind: theme

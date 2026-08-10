@@ -34,6 +34,22 @@ packages:
           darwin/arm64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
             sha256: 73693ec25bc19f38732c5bb0964a44cf669ba83ea3098542f9fcdba36423edc6
+      # First build whose manifest/runtime.yml carries the real version. 0.1.0
+      # and 0.2.0 both report "0.1.0" to MASS, so the Runtimes tab could not
+      # tell them apart. Pairs with worker 0.2.1, which is the first worker
+      # whose compatible range covers a runtime that says 0.2.x.
+      - version: 0.2.1
+        mass: ">=0.2"
+        artifacts:  # key: os/arch
+          linux/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.1/mass-runtime-gateway-llama-cpp_linux_amd64.mass
+            sha256: cbf48b8d7948076df7c1379d6efa5c96d1a5a6fe9d13ede03679e1d6d1ba13d5
+          windows/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.1/mass-runtime-gateway-llama-cpp_windows_amd64.mass
+            sha256: 8f2bfa0798a68aac8dcd63fe075ccb743824bed38160ca7771a6d8079be8606b
+          darwin/arm64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.1/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
+            sha256: cb4faf00756037a05075b65e091270ddde77ca4ec02382cad2dfeae64fb78ddb
 
   - name: mass-worker-llama-cpp
     kind: worker
@@ -75,6 +91,23 @@ packages:
           windows/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.0/mass-worker-setup_windows_amd64.exe
             sha256: 5cf85491c194cd54eb6380458d5b9f131cefba005b514591f6aec6d956ec3f84
+      # First build that reports its own version truthfully (0.1.0 and 0.2.0
+      # both say "0.1.0") and the first whose compatible range covers a
+      # runtime reporting 0.2.x. Requires runtime 0.2.1: against the older
+      # gateways, which report 0.1.0, MASS rejects it at Register.
+      - version: 0.2.1
+        runtime: ">=0.2 <0.3"  # runtime versions whose payloads it decodes
+        mass: ">=0.2"  # MASS server versions it speaks the hub protocol to
+        artifacts:  # key: os/arch/backend
+          linux/amd64/vulkan:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.1/mass-worker-setup_linux_amd64
+            sha256: dd4120636a93c0f451151eb579996ab5e2385731acf7941b533e485bf46a5089
+          darwin/arm64/metal:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.1/mass-worker-setup_darwin_arm64
+            sha256: 6763d8a30e156dd5397fcd525cfa870619f62fbe73e1255dd54d0256403cbe2a
+          windows/amd64/vulkan:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.1/mass-worker-setup_windows_amd64.exe
+            sha256: d11cb7c3323c26dfd35f4f6a8e3707243ab5243da721c7ba0014be28ac56671e
 
   - name: theme-synthwave
     kind: theme

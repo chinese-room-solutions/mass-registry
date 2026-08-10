@@ -1,0 +1,61 @@
+name: validate
+
+# The validator is mass-sdk's cmd/registry-validate, run from source against a
+# fresh checkout, so the index schema and the client that reads it can't drift.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    # Weekly, Monday 04:23 UTC — the digest sweep only, see verify-artifacts.
+    - cron: "23 4 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  schema:
+    name: schema and artifact urls
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          repository: chinese-room-solutions/mass-sdk
+          ref: main
+          path: mass-sdk
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: mass-sdk/go.mod
+          check-latest: true
+      - name: Validate index.yml
+        working-directory: mass-sdk
+        run: go run ./cmd/registry-validate "$GITHUB_WORKSPACE/index.yml"
+
+  # Not on push: this downloads every indexed artifact (hundreds of megabytes),
+  # and a digest only breaks when a release asset is re-uploaded — a
+  # publisher-time event, not something an index edit can cause.
+  verify-artifacts:
+    name: artifact digests
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          repository: chinese-room-solutions/mass-sdk
+          ref: main
+          path: mass-sdk
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: mass-sdk/go.mod
+          check-latest: true
+      - name: Validate index.yml and re-hash every artifact
+        working-directory: mass-sdk
+        run: go run ./cmd/registry-validate --verify-artifacts "$GITHUB_WORKSPACE/index.yml"

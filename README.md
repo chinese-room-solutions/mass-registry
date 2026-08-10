@@ -35,8 +35,8 @@ never breaks a released client.
     - `runtime` — **worker only.** Semver range of *runtime* versions whose
       payloads this worker decodes (e.g. `">=0.1 <0.2"`).
     - `grimoire` — **theme only.** Semver range of Grimoire versions the theme
-      works with; empty means unconstrained (the typical case — themes are
-      token packs).
+      works with, enforced by Grimoire when it resolves a theme to install.
+      Empty means unconstrained (the typical case — themes are token packs).
     - `artifacts` — map, keyed by platform. Each value is `{url, sha256}`:
       - runtime key format: `os/arch` (e.g. `linux/amd64`).
       - worker key format: `os/arch/backend` (e.g. `linux/amd64/vulkan`).
@@ -80,10 +80,11 @@ runtime version and `mass` (when set) against the MASS server version — both m
 cover. If no version covers every applicable range and has a matching artifact,
 resolution fails.
 
-Ranges in the index are trusted to be well-formed (validated at publish time):
-an unparseable range is a resolution **error**, not a version to skip. A
-malformed *installed* version supplied by the resolving client is an input
-error, distinct from "no version covers it".
+Ranges in the index are trusted to be well-formed — CI validates every edit
+here (see Publishing), so a malformed range never reaches the default branch.
+At resolution time an unparseable range is a resolution **error**, not a
+version to skip. A malformed *installed* version supplied by the resolving
+client is an input error, distinct from "no version covers it".
 
 ## Publishing
 
@@ -94,3 +95,20 @@ error, distinct from "no version covers it".
    `version`, its ranges (`runtime` and/or `mass`), and one `artifacts` entry
    per built platform with the release download URL and the asset's real
    `sha256` (`curl -L <url> | sha256sum`).
+3. Add a worker row and the runtime row that reference each other's new minor
+   in **one** commit, never separately. A worker needs a runtime reporting the
+   version its `runtime` range covers, and that runtime is out of range for
+   every earlier worker, so publishing one without the other resolves to a pair
+   MASS refuses at Register.
+
+**Skew policy.** A worker floats within one runtime (gateway) minor. A
+`runtime` range is expected to span exactly one minor, e.g. `">=0.2 <0.3"`, so
+either side can ship patches on its own. Crossing a minor is a breaking pair
+and lands under the one-commit rule above.
+
+Every push and pull request runs `registry-validate` from
+[mass-sdk](https://github.com/chinese-room-solutions/mass-sdk), the same code
+that reads this index at runtime: schema, unique names, ascending semver,
+parseable ranges, and artifacts carrying a URL and a real-or-`TBD` digest. A
+weekly job (also runnable on demand) downloads every artifact and re-checks its
+`sha256`, which catches a release asset re-uploaded after publication.

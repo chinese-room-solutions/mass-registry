@@ -60,7 +60,10 @@ packages:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.1.0/mass-worker-setup_windows_amd64.exe
             sha256: 9fd87ca8c9188e79d93e5e47a1c0cf92e19a40f362a37aa69e6b77e87795aacd
       - version: 0.2.0
-        runtime: ">=0.2 <0.3"  # runtime versions whose payloads it decodes
+        # 0.1.x, not 0.2.x: the 0.2.0 gateway shipped with its manifest still
+        # reading 0.1.0, and this build's own kCompatibleRuntimes matches that.
+        # Both are corrected in 0.2.1 — this row describes what 0.2.0 does.
+        runtime: ">=0.1 <0.2"  # runtime versions whose payloads it decodes
         mass: ">=0.2"  # MASS server versions it speaks the hub protocol to
         artifacts:  # key: os/arch/backend
           linux/amd64/vulkan:

@@ -52,6 +52,20 @@ packages:
           darwin/arm64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.1/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
             sha256: cb4faf00756037a05075b65e091270ddde77ca4ec02382cad2dfeae64fb78ddb
+      # First generation with negotiated wire protocols: pairs with worker
+      # 0.3.0 and MASS 0.3.0, which rejects protocol-less peers.
+      - version: 0.3.0
+        mass: ">=0.3"
+        artifacts:  # key: os/arch
+          linux/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.3.0/mass-runtime-gateway-llama-cpp_linux_amd64.mass
+            sha256: 45456056983527f0219faa61c7d9fac781b6e50690c14dbd5b12ec2d3143576e
+          windows/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.3.0/mass-runtime-gateway-llama-cpp_windows_amd64.mass
+            sha256: db49ae0d0efe819950420d388f0071de45cf5343100906476f30f2d220f3a754
+          darwin/arm64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.3.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
+            sha256: be2ea76638dabd98753ef6ae556e86adb9f6533bdfe22597663df170dfeea70c
 
   - name: mass-worker-llama-cpp
     kind: worker
@@ -112,6 +126,22 @@ packages:
           windows/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.1/mass-worker-setup_windows_amd64.exe
             sha256: d11cb7c3323c26dfd35f4f6a8e3707243ab5243da721c7ba0014be28ac56671e
+      # First generation with a negotiated hub wire protocol: requires MASS
+      # 0.3.0, which in turn loads only 0.3.x gateways, so older runtimes are
+      # unreachable from any MASS this worker can register with.
+      - version: 0.3.0
+        runtime: ">=0.3 <0.4"  # runtime versions whose payloads it decodes
+        mass: ">=0.3"  # MASS server versions it speaks the hub protocol to
+        artifacts:  # key: os/arch/backend
+          linux/amd64/vulkan:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.3.0/mass-worker-setup_linux_amd64
+            sha256: fc6c70fb15f3d45d8dd338c3d4123807a1290364175d33f60d42ddafed394294
+          darwin/arm64/metal:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.3.0/mass-worker-setup_darwin_arm64
+            sha256: c8518b205870a28953d7551629d37973db6c3efc8ca6893a31709a23d42f7a90
+          windows/amd64/vulkan:
+            url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.3.0/mass-worker-setup_windows_amd64.exe
+            sha256: 14afa54b66b19d676d3b50a90860ba52a68f015a6bc0e71f3b68866017fa4c99
 
   - name: theme-synthwave
     kind: theme

@@ -23,7 +23,9 @@ packages:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.1.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
             sha256: f525ceb6b9cdd714b8b6adc826819b1e92aa537dae0f17f096a232335634614b
       - version: 0.2.0
-        mass: ">=0.2"
+        # Upper bound: MASS 0.3.0 negotiates the gateway wire protocol at Init
+        # and rejects a gateway that names none, which pre-0.3 gateways do.
+        mass: ">=0.2 <0.3"
         artifacts:  # key: os/arch
           linux/amd64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.0/mass-runtime-gateway-llama-cpp_linux_amd64.mass
@@ -39,7 +41,7 @@ packages:
       # tell them apart. Pairs with worker 0.2.1, which is the first worker
       # whose compatible range covers a runtime that says 0.2.x.
       - version: 0.2.1
-        mass: ">=0.2"
+        mass: ">=0.2 <0.3"  # same wire-protocol upper bound as 0.2.0
         artifacts:  # key: os/arch
           linux/amd64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.2.1/mass-runtime-gateway-llama-cpp_linux_amd64.mass
@@ -80,7 +82,9 @@ packages:
         # reading 0.1.0, and this build's own kCompatibleRuntimes matches that.
         # Both are corrected in 0.2.1 — this row describes what 0.2.0 does.
         runtime: ">=0.1 <0.2"  # runtime versions whose payloads it decodes
-        mass: ">=0.2"  # MASS server versions it speaks the hub protocol to
+        # Upper bound: MASS 0.3.0 negotiates the hub wire protocol at Register
+        # and rejects a worker that names none, which pre-0.3 workers do.
+        mass: ">=0.2 <0.3"  # MASS server versions it speaks the hub protocol to
         artifacts:  # key: os/arch/backend
           linux/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.0/mass-worker-setup_linux_amd64
@@ -97,7 +101,7 @@ packages:
       # gateways, which report 0.1.0, MASS rejects it at Register.
       - version: 0.2.1
         runtime: ">=0.2 <0.3"  # runtime versions whose payloads it decodes
-        mass: ">=0.2"  # MASS server versions it speaks the hub protocol to
+        mass: ">=0.2 <0.3"  # same wire-protocol upper bound as 0.2.0
         artifacts:  # key: os/arch/backend
           linux/amd64/vulkan:
             url: https://github.com/chinese-room-solutions/mass-worker-llama-cpp/releases/download/v0.2.1/mass-worker-setup_linux_amd64

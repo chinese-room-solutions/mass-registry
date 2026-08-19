@@ -66,6 +66,22 @@ packages:
           darwin/arm64:
             url: https://github.com/chinese-room-solutions/mass-runtime-gateway-llama-cpp/releases/download/v0.3.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
             sha256: be2ea76638dabd98753ef6ae556e86adb9f6533bdfe22597663df170dfeea70c
+      # Exits when MASS does, so a MASS that dies without stopping it no longer
+      # leaves a gateway holding a model resident. Wire protocols and payloads
+      # are unchanged from 0.3.0. URLs carry the repo's current name; the rows
+      # above predate its rename and GitHub still redirects those.
+      - version: 0.4.0
+        mass: ">=0.3"
+        artifacts:  # key: os/arch
+          linux/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-llama-cpp/releases/download/v0.4.0/mass-runtime-gateway-llama-cpp_linux_amd64.mass
+            sha256: edf46d0b3186e8d1388135013d60a24db4097dde5d309b35965f5beb26a2bb58
+          windows/amd64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-llama-cpp/releases/download/v0.4.0/mass-runtime-gateway-llama-cpp_windows_amd64.mass
+            sha256: bac175713bdaa4cebdf319734235bf23699e1b239de010e3e8e6aeef59c3d579
+          darwin/arm64:
+            url: https://github.com/chinese-room-solutions/mass-runtime-llama-cpp/releases/download/v0.4.0/mass-runtime-gateway-llama-cpp_darwin_arm64.mass
+            sha256: f0571042d11e34d3cb5b9a42e379a2d85ae29e6aa0b986b8fe2b7a1d365dbdbe
 
   - name: mass-worker-llama-cpp
     kind: worker
@@ -130,7 +146,9 @@ packages:
       # 0.3.0, which in turn loads only 0.3.x gateways, so older runtimes are
       # unreachable from any MASS this worker can register with.
       - version: 0.3.0
-        runtime: ">=0.3 <0.4"  # runtime versions whose payloads it decodes
+        # Covers runtime 0.4.x too: 0.4.0 changed only the gateway's own
+        # shutdown, leaving the payloads this decodes identical to 0.3.0's.
+        runtime: ">=0.3 <0.5"  # runtime versions whose payloads it decodes
         mass: ">=0.3"  # MASS server versions it speaks the hub protocol to
         artifacts:  # key: os/arch/backend
           linux/amd64/vulkan:
